@@ -1,0 +1,26 @@
+{
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{env `YC_SERVICE_ACCOUNT_KEY_FILE`}}",
+            "folder_id": "{{env `YC_FOLDER_ID`}}",
+
+            "source_image_family": "ubuntu-1804-lts",
+            "image_name": "docker-host-{{timestamp}}",
+            "image_family": "docker-host",
+
+            "use_ipv4_nat": true,
+            "disk_type": "network-ssd",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1"
+
+        }
+    ],
+
+    "provisioners": [
+           {
+               "type": "ansible",
+               "playbook_file": "../ansible/install_docker.yml"
+           }
+         ]
+       }
