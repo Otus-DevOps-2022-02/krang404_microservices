@@ -29,7 +29,7 @@ variable "private_key_path" {
 variable "image_id" {
   description = "Disk image"
   type        = string
-  default     = "fd8j8o5bguvqglmqls7q"
+  default     = "fd87e7irbcgcg7tn4rnj"
 }
 variable "subnet_id" {
   description = "Subnet"
