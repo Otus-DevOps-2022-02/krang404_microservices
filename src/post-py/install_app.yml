@@ -1,0 +1,17 @@
+---
+- name: Run image with apt-mirror
+  hosts: os_updater
+  become: true
+  tasks:
+
+  - name: Run container
+    docker_container:
+      image: seterrychen/apt-mirror-http-server
+      name: mirror-apt
+      state: started
+      restart: yes
+      devices:
+        - "/dev/vdb1:/var/spool/apt-mirror:rwm"
+        - "/tmp/mirror.list:/etc/apt/mirror.list:rwm"
+      ports:
+        - "8080:80"

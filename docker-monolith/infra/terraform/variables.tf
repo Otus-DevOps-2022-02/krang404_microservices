@@ -26,10 +26,15 @@ variable "private_key_path" {
   description = "Path to the private key used for ssh access"
   default     = "~/.ssh/yc"
 }
-variable "image_id" {
+variable "image_id_packer" {
   description = "Disk image"
   type        = string
   default     = "fd87e7irbcgcg7tn4rnj"
+}
+variable "image_id" {
+  description = "Disk image"
+  type        = string
+  default     = "fd8irfoscugmpsoanefh"
 }
 variable "subnet_id" {
   description = "Subnet"
@@ -42,5 +47,5 @@ variable "service_account_key_file" {
 }
 variable "instance_count" {
   description = "count var"
-  default     = "2"
+  default     = "1"
 }
