@@ -16,3 +16,4 @@ ansible/roles/jdauphant.nginx/*
 .cache
 .pytest_cache
 ansible/venv/*
+.env
