@@ -6,7 +6,7 @@ gem 'bson_ext'
 gem 'bcrypt'
 gem 'puma', '=3.10.0'
 gem 'mongo'
-gem 'json', '~>2.2'
+gem 'json', '=2.6.2'
 gem 'rack-test'
 
 group :development do
