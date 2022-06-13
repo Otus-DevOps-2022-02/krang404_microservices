@@ -1,0 +1,14 @@
+---
+- name: Touche docker compose
+  hosts: all
+  become: true
+  tasks:
+
+  - name: Make docker compose file
+    template:
+      src: templates/docker-compose.yml.j2
+      dest: /srv/gitlab/docker-compose.yml
+
+  - name: Docker Compose UP
+    community.docker.docker_compose:
+      project_src: /srv/gitlab
