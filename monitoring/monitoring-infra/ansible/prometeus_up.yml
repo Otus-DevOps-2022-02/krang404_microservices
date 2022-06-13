@@ -1,0 +1,20 @@
+---
+- name: Touche docker compose
+  hosts: all
+  tasks:
+
+  - name: Make docker compose file
+    template:
+      src: templates/docker-compose.yml.j2
+      dest: /tmp/docker/docker-compose.yml
+
+  - name: Docker Compose DOWN
+    community.docker.docker_compose:
+      project_src: /tmp/docker/
+      state: absent
+      remove_images: local
+
+  - name: Docker Compose UP
+    community.docker.docker_compose:
+      project_src: /tmp/docker/
+      recreate: always
