@@ -20,6 +20,7 @@ services:
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
+    privileged: true
     restart: always
     depends_on:
       - web
