@@ -12,6 +12,9 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   # DOCKER_HOST: tcp://docker:2375/
 
+services:
+  - docker:stable-dind
+
 before_script:
   - cd reddit
   - bundle install
@@ -23,9 +26,9 @@ build_job:
 
 build_reddit:
   stage: build
-  image: docker:stable-dind
   before_script:
     - cd reddit
+    - docker info
   script:
     - export DOCKER_HOST=tcp://docker:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
   environment:
