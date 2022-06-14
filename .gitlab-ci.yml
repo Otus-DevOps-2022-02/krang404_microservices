@@ -10,7 +10,7 @@ stages:
 variables:
   DATABASE_URL: 'mongodb://mongo/user_posts'
   DOCKER_TLS_CERTDIR: ""
-  DOCKER_HOST: tcp://docker:2375/
+  # DOCKER_HOST: tcp://docker:2375/
 
 before_script:
   - cd reddit
@@ -27,7 +27,7 @@ build_reddit:
   before_script:
     - cd reddit
   script:
-    - docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
+    - export DOCKER_HOST=tcp://127.0.0.1:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
   environment:
     name: branch/$CI_COMMIT_REF_NAME
   only:
