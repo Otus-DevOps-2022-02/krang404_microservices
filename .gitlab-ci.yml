@@ -26,6 +26,7 @@ build_job:
 
 build_reddit:
   stage: build
+  image: docker:stable
   before_script:
     - cd reddit
   script:
