@@ -64,6 +64,7 @@ branch_review:
   before_script:
     - cd reddit
   script:
+    - export DOCKER_HOST=tcp://docker:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
     - docker run --name reddit-$CI_COMMIT_SHORT_SHA -d -p 9292:9292 reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   environment:
     name: branch/$CI_COMMIT_REF_NAME
