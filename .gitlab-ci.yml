@@ -23,9 +23,7 @@ build_job:
 
 build_reddit:
   stage: build
-  image: docker:stable
-  service:
-    - docker:stable-dind
+  image: docker:stable-dind
   before_script:
     - cd reddit
   script:
