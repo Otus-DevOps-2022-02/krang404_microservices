@@ -27,8 +27,7 @@ build_reddit:
   before_script:
     - cd reddit
   script:
-    - export DOCKER_HOST=http://172.18.0.3:2375 &&
-    - docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
+    - export DOCKER_HOST=tcp://172.18.0.2:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
   environment:
     name: branch/$CI_COMMIT_REF_NAME
   only:
