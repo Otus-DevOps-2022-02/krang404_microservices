@@ -23,11 +23,11 @@ build_job:
 
 build_reddit:
   stage: build
-  image: docker:dind
+  image: docker:stable
   before_script:
     - cd reddit
   script:
-    # - export DOCKER_HOST=tcp://0.0.0.0:2375 &&
+    - export DOCKER_HOST=http://172.18.0.3:2375 &&
     - docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
   environment:
     name: branch/$CI_COMMIT_REF_NAME
