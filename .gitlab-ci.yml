@@ -10,7 +10,6 @@ stages:
 variables:
   DATABASE_URL: 'mongodb://mongo/user_posts'
   DOCKER_TLS_CERTDIR: ""
-  # DOCKER_HOST: tcp://docker:2375/
 
 services:
   - docker:stable-dind
@@ -31,6 +30,7 @@ build_reddit:
     - cd reddit
   script:
     - export DOCKER_HOST=tcp://docker:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
+    - docker run --name reddit-$CI_COMMIT_SHORT_SHA -d -p 9292:9292 reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
   environment:
     name: branch/$CI_COMMIT_REF_NAME
   only:
@@ -60,15 +60,11 @@ deploy_dev_job:
 
 branch_review:
   stage: review
-  image: docker:stable
-  before_script:
-    - cd reddit
   script:
-    - export DOCKER_HOST=tcp://docker:2375 && docker build -t reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA .
-    - docker run --name reddit-$CI_COMMIT_SHORT_SHA -d -p 9292:9292 reddit:$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA
+    - echo "Deploy to $CI_ENVIRONMENT_SLUG"
   environment:
     name: branch/$CI_COMMIT_REF_NAME
-    url: http://$CI_PROJECT_URL:9292
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
   only:
     - branches
   except:

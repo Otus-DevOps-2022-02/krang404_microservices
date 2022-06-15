@@ -54,6 +54,7 @@
       file:
         path: /srv/gitlab/{{ item }}
         state: directory
+        owner: "{{ ansible_user }}"
       loop:
          - config
          - data

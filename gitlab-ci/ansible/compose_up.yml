@@ -1,7 +1,6 @@
 ---
 - name: Touche docker compose
   hosts: all
-  become: true
   tasks:
 
   - name: Make docker compose file
