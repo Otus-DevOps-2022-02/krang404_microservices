@@ -56,3 +56,10 @@
         owner: "{{ ansible_user }}"
         group: docker
         state: directory
+
+    - name: Create directory for blackbox-exporter config
+      file:
+        path: /tmp/docker/blackbox-exporter
+        owner: "{{ ansible_user }}"
+        group: docker
+        state: directory

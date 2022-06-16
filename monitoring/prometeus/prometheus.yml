@@ -28,20 +28,24 @@ scrape_configs:
       - targets:
         - 'mongo-exporter:9216'
 
-  - job_name: 'blackbox-exporter'
-    metrics_path: /probe
-    params:
-      module: ['http_2xx','tcp_connect', 'icmp']
+  - job_name: 'post'
     static_configs:
       - targets:
         - 'post:5000'
-        - 'post_db:27017'
-        - 'comment:9292'
-        - 'ui:9292'
+
+  - job_name: 'blackbox-exporter'
+    metrics_path: /metrics
+    params:
+      module: ['http_2xx_example']
+    static_configs:
+      - targets:
+        - 'http://post:5000/metrics'
+        - 'http://comment:9292/metrics'
+        - 'http://ui:9292/metrics'
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: localhost:9115
+        replacement: blackbox-exporter:9115

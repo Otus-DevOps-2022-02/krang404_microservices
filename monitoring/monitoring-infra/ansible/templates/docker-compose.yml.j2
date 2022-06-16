@@ -6,33 +6,38 @@ services:
     volumes:
       - post_db:/data/db
     networks:
-      - back_net
+      back_net:
+        ipv4_address: 10.0.2.7
   ui:
-    # build: ./ui
     image: {{ USERNAME }}/ui:latest
     ports:
       - 9292:9292/tcp
     networks:
-      - front_net
+      front_net:
+        ipv4_address: 10.0.1.7
   post:
-    # build: ./post-py
     image: {{ USERNAME }}/post:latest
     networks:
-      - back_net
-      - front_net
+      front_net:
+        ipv4_address: 10.0.1.2
+      back_net:
+        ipv4_address: 10.0.2.2
   comment:
-    # build: ./comment
     image: {{ USERNAME }}/comment:latest
     networks:
-      - back_net
-      - front_net
+      front_net:
+        ipv4_address: 10.0.1.3
+      back_net:
+        ipv4_address: 10.0.2.3
   prometheus:
     image: {{ USERNAME }}/prometheus:latest
     ports:
       - 9090:9090/tcp
     networks:
-      - back_net
-      - front_net
+      front_net:
+        ipv4_address: 10.0.1.4
+      back_net:
+        ipv4_address: 10.0.2.4
     volumes:
       - prometheus_data:/prometheus
     command: # Передаем доп параметры в командной строке
@@ -52,8 +57,10 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
     networks:
-      - back_net
-      - front_net
+      front_net:
+        ipv4_address: 10.0.1.5
+      back_net:
+        ipv4_address: 10.0.2.5
 
   mongo-exporter:
     image: percona/mongodb_exporter:0.32.0
@@ -61,24 +68,26 @@ services:
       - '--mongodb.uri=mongodb://post_db:27017'
       - '--collect-all'
     networks:
-      - back_net
+      back_net:
+        ipv4_address: 10.0.2.8
 
   blackbox-exporter:
     image: prom/blackbox-exporter:master
     volumes:
-      - blackbox_exporter:/config
+      - /tmp/docker/blackbox-exporter:/config
     command:
       - '--config.file=/config/blackbox.yml'
     ports:
       - 9115:9115/tcp
     networks:
-      - front_net
-      - back_net
+      front_net:
+        ipv4_address: 10.0.1.6
+      back_net:
+        ipv4_address: 10.0.2.6
 
 volumes:
   post_db:
   prometheus_data:
-  blackbox_exporter:
 
 networks:
   reddit:
@@ -87,23 +96,8 @@ networks:
     ipam:
       config:
         - subnet: 10.0.1.0/24
-          aux_addresses:
-            ui: 10.0.1.10
-            post: 10.0.1.11
-            comment: 10.0.1.12
-            prometheus: 10.0.1.14
-            node-exporter: 10.0.1.15
-            blackbox-exporter: 10.0.1.16
   back_net:
     driver: bridge
     ipam:
       config:
         - subnet: 10.0.2.0/24
-          aux_addresses:
-            post_db: 10.0.2.20
-            post: 10.0.2.21
-            comment: 10.0.2.22
-            prometheus: 10.0.2.24
-            node-exporter: 10.0.2.25
-            blackbox-exporter: 10.0.2.26
-            mongo-exporter: 10.0.2.27
