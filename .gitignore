@@ -1,4 +1,5 @@
 variables.json
+*.lock.hcl
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup

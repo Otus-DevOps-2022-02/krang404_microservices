@@ -1,0 +1,15 @@
+---
+- name: Register runner
+  hosts: all
+  tasks:
+
+  - name: Make shell script
+    template:
+      src: templates/register_runner.sh.j2
+      dest: /srv/gitlab/register_runner.sh
+      owner: "{{ ansible_user }}"
+      mode: u=rwx, g=rwx, o=r
+
+  - name: Register runner
+    command:
+      cmd: source /srv/gitlab/register_runner.sh

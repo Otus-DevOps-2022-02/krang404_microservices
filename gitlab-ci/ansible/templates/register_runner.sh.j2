@@ -1,0 +1,13 @@
+#!/bin/bash
+
+gitlab-runner register  \
+--url http://{{ YOUR_VM_IP }}/ \
+--non-interactive \
+--locked=false \
+--name DockerRunner \
+--executor docker \
+--docker-image docker:stable \
+--docker-privileged \
+--registration-token {{ YOUR_TOKEN }} \
+--tag-list "linux,xenial,ubuntu,docker" \
+--run-untagged
