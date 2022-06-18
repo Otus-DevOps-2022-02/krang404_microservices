@@ -1,0 +1,12 @@
+---
+- name: Run image with prometheus
+  hosts: all
+  become: true
+  tasks:
+
+  - name: Run container
+    docker_container:
+      image: prom/prometheus
+      name: prometeus
+      ports:
+        - 9090:9090

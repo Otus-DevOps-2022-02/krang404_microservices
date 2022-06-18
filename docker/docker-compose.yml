@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3.3"
 
 services:
   post_db:
@@ -37,9 +37,16 @@ networks:
     ipam:
       config:
         - subnet: 10.0.1.0/24
-
+          # aux_addresses:
+          #   ui: 10.0.1.10
+          #   post: 10.0.1.11
+          #   comment: 10.0.1.12
   back_net:
     driver: bridge
     ipam:
       config:
         - subnet: 10.0.2.0/24
+          # aux_addresses:
+          #   post_db: 10.0.2.20
+          #   post: 10.0.2.21
+          #   comment: 10.0.2.22

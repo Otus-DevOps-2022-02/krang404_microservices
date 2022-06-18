@@ -1,0 +1,103 @@
+version: "3.8"
+
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.7
+  ui:
+    image: {{ USERNAME }}/ui:latest
+    ports:
+      - 9292:9292/tcp
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.7
+  post:
+    image: {{ USERNAME }}/post:latest
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.2
+      back_net:
+        ipv4_address: 10.0.2.2
+  comment:
+    image: {{ USERNAME }}/comment:latest
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.3
+      back_net:
+        ipv4_address: 10.0.2.3
+  prometheus:
+    image: {{ USERNAME }}/prometheus:latest
+    ports:
+      - 9090:9090/tcp
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.4
+      back_net:
+        ipv4_address: 10.0.2.4
+    volumes:
+      - prometheus_data:/prometheus
+    command: # Передаем доп параметры в командной строке
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d' # Задаем время хранения метрик в 1 день
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.5
+      back_net:
+        ipv4_address: 10.0.2.5
+
+  mongo-exporter:
+    image: percona/mongodb_exporter:0.32.0
+    command:
+      - '--mongodb.uri=mongodb://post_db:27017'
+      - '--collect-all'
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.8
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:master
+    volumes:
+      - /tmp/docker/blackbox-exporter:/config
+    command:
+      - '--config.file=/config/blackbox.yml'
+    ports:
+      - 9115:9115/tcp
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.6
+      back_net:
+        ipv4_address: 10.0.2.6
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  reddit:
+  front_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+  back_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24
