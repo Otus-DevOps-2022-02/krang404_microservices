@@ -57,13 +57,13 @@ networks:
   reddit:
   front_net:
     driver: bridge
-    name: front_net
+    # name: front_net
     ipam:
       config:
         - subnet: 10.0.1.0/24
   back_net:
     driver: bridge
-    name: back_net
+    # name: back_net
     ipam:
       config:
         - subnet: 10.0.2.0/24
