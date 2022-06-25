@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  zipkin:
+    image: openzipkin/zipkin:2.21.0
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.5
+      back_net:
+        ipv4_address: 10.0.2.5
+
+  fluentd:
+    image: {{ USERNAME }}/fluentd:latest
+    container_name: fluentd
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.6
+      back_net:
+        ipv4_address: 10.0.2.6
+
+  elasticsearch:
+    image: elasticsearch:7.17.4
+    container_name: elasticsearch
+    environment:
+      - ELASTIC_CLUSTER=false
+      - CLUSTER_NODE_MASTER=true
+      - CLUSTER_MASTER_NODE_NAME=es01
+      - discovery.type=single-node
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.8
+      back_net:
+        ipv4_address: 10.0.2.8
+
+  kibana:
+    image: kibana:7.17.4
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    networks:
+      front_net:
+        ipv4_address: 10.0.1.9
+      back_net:
+        ipv4_address: 10.0.2.9
+
+networks:
+  reddit:
+  front_net:
+    driver: bridge
+    name: front_net
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+  back_net:
+    driver: bridge
+    name: back_net
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24

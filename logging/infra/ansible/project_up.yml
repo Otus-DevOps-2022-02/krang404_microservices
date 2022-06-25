@@ -1,0 +1,36 @@
+---
+- name: Touche docker compose
+  hosts: all
+  tasks:
+
+  - name: Make docker compose file
+    template:
+      src: templates/docker-compose.yml.j2
+      dest: /tmp/docker/docker-compose.yml
+
+  - name: Make docker compose file for logging
+    template:
+      src: templates/docker-compose-logging.yml.j2
+      dest: /tmp/docker/docker-compose-logging.yml
+
+  - name: Docker Compose DOWN
+    community.docker.docker_compose:
+      project_src: /tmp/docker/
+      files:
+        - docker-compose.yml
+        - docker-compose-logging.yml
+      state: absent
+      remove_images: all
+
+  # - name: Docker prune
+  #   community.docker.docker_prune:
+  #     containers: yes
+  #     images: yes
+
+
+  - name: Docker Compose UP
+    community.docker.docker_compose:
+      project_src: /tmp/docker/
+      files:
+        - docker-compose.yml
+        - docker-compose-logging.yml
