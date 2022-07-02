@@ -1,1 +1,0 @@
-kubeadm join 51.250.2.19:6443 --token 0sbdja.8ppm0hlk9mcj5bzw --discovery-token-ca-cert-hash sha256:20a439ef8ea4243bd3fb8563fc0b93096ae62894228de319d5807313f7993c92
