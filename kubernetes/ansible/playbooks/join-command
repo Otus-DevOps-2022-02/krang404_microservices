@@ -1,0 +1,1 @@
+kubeadm join 51.250.68.87:6443 --token abgbug.inaovqavhs9k0cq5 --discovery-token-ca-cert-hash sha256:41012c31880a5ee90ddac3804efaba618b505052ccbf12205fe02f35c9314ad4

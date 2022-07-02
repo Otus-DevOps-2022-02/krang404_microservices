@@ -1,0 +1,24 @@
+---
+- name: Apply Manifest
+  hosts: master
+  tasks:
+
+  - name: Copy manifest
+    copy:
+      src: ../../reddit/{{ item }}
+      dest: $HOME/{{ item }}
+    with_items:
+      - comment-deployment.yaml
+      - mongo-deployment.yaml
+      - post-deployment.yaml
+      - ui-deployment.yaml
+
+  - name: Apply Deployment
+    command: kupectl apply -f {{ item }}
+    args:
+      chdir: $HOME
+    with_items:
+      - comment-deployment.yaml
+      - mongo-deployment.yaml
+      - post-deployment.yaml
+      - ui-deployment.yaml
