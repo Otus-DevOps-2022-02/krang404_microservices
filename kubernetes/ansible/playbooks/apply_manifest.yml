@@ -8,17 +8,17 @@
       src: ../../reddit/{{ item }}
       dest: $HOME/{{ item }}
     with_items:
-      - comment-deployment.yaml
+      - comment-deployment.yml
       - mongo-deployment.yaml
-      - post-deployment.yaml
-      - ui-deployment.yaml
+      - post-deployment.yml
+      - ui-deployment.yml
 
   - name: Apply Deployment
     command: kupectl apply -f {{ item }}
     args:
       chdir: $HOME
     with_items:
-      - comment-deployment.yaml
-      - mongo-deployment.yaml
-      - post-deployment.yaml
-      - ui-deployment.yaml
+      - comment-deployment.yml
+      - mongo-deployment.yml
+      - post-deployment.yml
+      - ui-deployment.yml
