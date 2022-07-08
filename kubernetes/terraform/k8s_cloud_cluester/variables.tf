@@ -31,6 +31,13 @@ variable "image_id" {
   type        = string
   default     = "fd8hjvnsltkcdeqjom1n"
 }
+
+variable "network_id" {
+  description = "Cloud network"
+  type        = string
+  default     = "enpevb8oc3ch18va1osq"
+}
+
 variable "subnet_id" {
   description = "Subnet"
   type        = string
