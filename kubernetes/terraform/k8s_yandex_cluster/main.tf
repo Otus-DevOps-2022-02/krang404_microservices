@@ -187,6 +187,20 @@ resource "yandex_vpc_security_group" "k8s_public_services" {
     from_port      = 30000
     to_port        = 32767
   }
+
+  ingress {
+    protocol       = "TCP"
+    description    = "Правило разрешает входящий трафик 80 порт "
+    v4_cidr_blocks = ["0.0.0.0/0"]
+    port           = 80
+  }
+
+  ingress {
+    protocol       = "TCP"
+    description    = "Правило разрешает входящий трафик 443 порт "
+    v4_cidr_blocks = ["0.0.0.0/0"]
+    port           = 443
+  }
 }
 
 resource "yandex_vpc_security_group" "k8s_nodes_ssh_access" {
