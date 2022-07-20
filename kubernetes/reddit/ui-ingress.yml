@@ -1,0 +1,27 @@
+---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: ui
+# spec:
+#   backend:
+#     serviceName: ui
+#     servicePort: 80
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ui
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+  - secretName: ui-ingress
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: ui
+          servicePort: 9292
