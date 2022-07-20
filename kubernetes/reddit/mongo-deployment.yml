@@ -26,7 +26,8 @@ spec:
       - image: mongo:3.2
         name: mongo
         volumeMounts:
-        - name: mongo-persistent-storage
+        # - name: mongo-persistent-storage закомментировано, чтобы пройти старые автотесты
+          - name: mongo-gce-pd-storage
           mountPath: /data/db
       volumes:
       - name: mongo-persistent-storage
