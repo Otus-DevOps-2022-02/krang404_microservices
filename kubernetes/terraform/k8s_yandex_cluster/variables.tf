@@ -55,3 +55,8 @@ variable "worker_count" {
   description = "count var"
   default     = "1"
 }
+variable "service_ip" {
+  description = "IP for access to kubectl"
+  type        = string
+  default     = "0.0.0.0/0"
+}
