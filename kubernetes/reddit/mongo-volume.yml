@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 4Gi
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: disk-csi-driver.mks.ycloud.io
+    fsType: ext4
+# Значение disk_pvc_id берется из outpput terraform при создании кластера
+    volumeHandle: disk_pvc_id
