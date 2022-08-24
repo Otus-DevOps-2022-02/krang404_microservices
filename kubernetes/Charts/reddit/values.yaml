@@ -1,0 +1,23 @@
+comment:
+  image:
+    repository: krang404/comment
+    tag: latest
+  service:
+    externalPort: 9292
+    internalPort: 9292
+
+post:
+  image:
+    repository: krang404/post
+    tag: latest
+  service:
+    externalPort: 5000
+    internalPort: 5000
+
+ui:
+  image:
+    repository: krang404/ui
+    tag: latest
+  service:
+    externalPort: 9292
+    internalPort: 9292
