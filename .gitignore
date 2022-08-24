@@ -18,3 +18,4 @@ ansible/roles/jdauphant.nginx/*
 .pytest_cache
 ansible/venv/*
 .env
+kubernetes/terraform/k8s_yandex_cluster/variables.tf

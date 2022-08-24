@@ -1,0 +1,10 @@
+---
+service:
+  externalPort: 5000
+  internalPort: 5000
+
+image:
+  repository: krang404/post
+  tag: latest
+
+databaseHost:
